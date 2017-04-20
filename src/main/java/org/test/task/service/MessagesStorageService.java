@@ -17,8 +17,8 @@ public class MessagesStorageService {
     }
 
     public static void presetMessages(){
-        messages.add(new Message(counter.incrementAndGet(), UsersStorageService.users.get(0), "Hello, Sam"));
-        messages.add(new Message(counter.incrementAndGet(), UsersStorageService.users.get(1), "Good morning, Tommy"));
-        messages.add(new Message(counter.incrementAndGet(), UsersStorageService.users.get(2), "Hi, Kelly"));
+        messages.add(new Message(counter.incrementAndGet(), UsersStorageService.users.get(counter.intValue() - 1), "Hello, Sam"));
+        messages.add(new Message(counter.incrementAndGet(), UsersStorageService.users.get(counter.intValue() - 1), "Good morning, Tommy"));
+        messages.add(new Message(counter.incrementAndGet(), UsersStorageService.users.get(counter.intValue() - 1), "Hi, Kelly"));
     }
 }

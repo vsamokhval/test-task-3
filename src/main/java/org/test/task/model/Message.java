@@ -1,6 +1,6 @@
 package org.test.task.model;
 
-public class Message {
+public class Message implements Comparable<Message>{
 
 	private long id;
 	
@@ -43,6 +43,11 @@ public class Message {
 		this.content = content;
 	}
 
+
+	public int compareTo(Message msg) {
+		return this.recipient.getName().compareTo(msg.recipient.getName());
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -69,7 +74,5 @@ public class Message {
 	public String toString() {
 		return "Message [id=" + id + ", recipient=" + recipient + ", content=" + content + "]";
 	}
-	
 
-	
 }

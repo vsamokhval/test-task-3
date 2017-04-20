@@ -3,15 +3,22 @@ package org.test.task.service;
 import org.springframework.stereotype.Service;
 import org.test.task.model.Message;
 
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicLong;
 
 @Service("messageService")
-public class MessageServiceImpl implements MessageService{
+public class MessageServiceImpl implements MessageService {
+
+	private static final int COUNTER_INIT_VALUE = 4;
+
+	private static final AtomicLong counter = new AtomicLong(COUNTER_INIT_VALUE);
 
 	private static List<Message> messages = MessagesStorageService.messages;
 
 	public List<Message> findAllMessages() {
+		Collections.sort(messages);
 		return messages;
 	}
 
@@ -25,15 +32,7 @@ public class MessageServiceImpl implements MessageService{
 	}
 	
 	public void saveMessage(Message message) {
-		long id;
-		if(messages.isEmpty()) {
-			id = 0;
-		} else {
-			Message msg = messages.get(messages.size() - 1);
-			id = msg.getId() + 1;
-		}
-
-		message.setId(id);
+		message.setId(counter.incrementAndGet());
 		messages.add(message);
 	}
 
