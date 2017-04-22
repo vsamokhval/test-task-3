@@ -19,14 +19,16 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/")
-public class IndexController {
-	static final Logger logger = LoggerFactory.getLogger(IndexController.class);
+public class AppController {
+	static final Logger logger = LoggerFactory.getLogger(AppController.class);
 
 
 	@Autowired
 	MessageService messageService;
 	@Autowired
 	UserService userService;
+	@Autowired
+	UserValidator userValidator;
 
 	@RequestMapping(method = RequestMethod.GET)
 	public String getIndexPage(ModelMap model) {
@@ -47,7 +49,6 @@ public class IndexController {
 	@RequestMapping(value = { "/newmessage" }, method = RequestMethod.POST)
 	public String saveMessage(Message message, BindingResult result) {
 
-		UserValidator userValidator = new UserValidator();
 		userValidator.validate(message.getRecipient(), result);
 
 		if (result.hasErrors()) {
@@ -79,7 +80,6 @@ public class IndexController {
 	@RequestMapping(value = { "/edit-msg-{id}" }, method = RequestMethod.POST)
 	public String updateMessage(Message message, BindingResult result) {
 
-		UserValidator userValidator = new UserValidator();
 		userValidator.validate(message.getRecipient(), result);
 
 		if (result.hasErrors()) {

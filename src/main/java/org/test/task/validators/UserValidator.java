@@ -1,11 +1,13 @@
 package org.test.task.validators;
 
 
+import org.springframework.stereotype.Service;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 import org.test.task.model.User;
 
+@Service("userValidator")
 public class UserValidator implements Validator {
     @Override
     public boolean supports(Class<?> aClass) {
