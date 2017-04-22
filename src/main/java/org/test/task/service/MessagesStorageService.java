@@ -4,11 +4,11 @@ import org.test.task.model.Message;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicLong;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class MessagesStorageService {
 
-    private static final AtomicLong counter = new AtomicLong();
+    private static final AtomicInteger counter = new AtomicInteger();
 
     public static List<Message> messages = new ArrayList<Message>();
 

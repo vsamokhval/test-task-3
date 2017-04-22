@@ -1,11 +1,23 @@
 package org.test.task.model;
 
-public class Message implements Comparable<Message>{
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 
-	private long id;
-	
+@Entity
+@Table(name="MESSAGES")
+public class Message implements Comparable<Message>, Serializable {
+
+	@Id
+	@GeneratedValue(strategy= GenerationType.IDENTITY)
+	private Integer id;
+
+	@NotNull
+	@ManyToOne
+	@JoinColumn(name = "RECIPIENT_ID", nullable = false)
 	private User recipient;
-	
+
+	@Column(name="CONTENT")
 	private String content;
 	
 	public Message(){
@@ -13,17 +25,17 @@ public class Message implements Comparable<Message>{
 		this.recipient = new User();
 	}
 	
-	public Message(long id, User recipient, String content){
+	public Message(Integer id, User recipient, String content){
 		this.id = id;
 		this.recipient = recipient;
 		this.content = content;
 	}
 
-	public long getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 

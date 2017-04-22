@@ -1,8 +1,19 @@
 package org.test.task.model;
 
-public class User {
-    private long id;
+import org.hibernate.validator.constraints.NotEmpty;
 
+import javax.persistence.*;
+import java.io.Serializable;
+
+@Entity
+@Table(name="USERS")
+public class User implements Serializable {
+    @Id
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    private Integer id;
+
+    @NotEmpty
+    @Column(name="NAME", nullable=false)
     private String name;
 
     public User () {
@@ -14,16 +25,16 @@ public class User {
         this.name = name;
     }
 
-    public User (long id, String name) {
+    public User (Integer id, String name) {
         this.id = id;
         this.name = name;
     }
 
-    public long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

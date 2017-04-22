@@ -1,5 +1,7 @@
 package org.test.task.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -13,12 +15,13 @@ import org.test.task.service.MessageService;
 import org.test.task.service.UserService;
 import org.test.task.validators.UserValidator;
 
-import javax.validation.Valid;
 import java.util.List;
 
 @Controller
 @RequestMapping("/")
 public class IndexController {
+	static final Logger logger = LoggerFactory.getLogger(IndexController.class);
+
 
 	@Autowired
 	MessageService messageService;
@@ -42,7 +45,7 @@ public class IndexController {
 	}
 
 	@RequestMapping(value = { "/newmessage" }, method = RequestMethod.POST)
-	public String saveMessage(@Valid Message message, BindingResult result) {
+	public String saveMessage(Message message, BindingResult result) {
 
 		UserValidator userValidator = new UserValidator();
 		userValidator.validate(message.getRecipient(), result);
@@ -55,7 +58,7 @@ public class IndexController {
 		User user  = userService.findByName(userName);
 		if (null == user){
 			user = new User(userName);
-			userService.saveUser(user);
+			userService.save(user);
 		}
 		message.setRecipient(user);
 
@@ -64,7 +67,7 @@ public class IndexController {
 	}
 
 	@RequestMapping(value = { "/edit-msg-{id}" }, method = RequestMethod.GET)
-	public String editMessage(@PathVariable long id, ModelMap model) {
+	public String editMessage(@PathVariable int id, ModelMap model) {
 		Message message = messageService.findById(id);
 		String userName  = message.getRecipient().getName();
 		message.setRecipient(new User(userName));
@@ -74,13 +77,20 @@ public class IndexController {
 	}
 
 	@RequestMapping(value = { "/edit-msg-{id}" }, method = RequestMethod.POST)
-	public String updateMessage(Message message) {
+	public String updateMessage(Message message, BindingResult result) {
+
+		UserValidator userValidator = new UserValidator();
+		userValidator.validate(message.getRecipient(), result);
+
+		if (result.hasErrors()) {
+			return "addNewMessage";
+		}
 
 		String userName = message.getRecipient().getName();
 		User user  = userService.findByName(userName);
 		if (null == user){
 			user = new User(userName);
-			userService.saveUser(user);
+			userService.save(user);
 		}
 		message.setRecipient(user);
 

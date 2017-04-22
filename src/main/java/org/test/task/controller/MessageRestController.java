@@ -18,7 +18,7 @@ public class MessageRestController {
 
 
     @RequestMapping(value = "/message/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity<Message> deleteMessage(@PathVariable("id") long id) {
+    public ResponseEntity<Message> deleteMessage(@PathVariable("id") int id) {
 
         Message message = messageService.findById(id);
         if (message == null) {

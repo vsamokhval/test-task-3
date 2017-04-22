@@ -1,0 +1,37 @@
+/* USERS table contains users */
+create table USERS(
+   id BIGINT NOT NULL AUTO_INCREMENT,
+   name VARCHAR(30) NOT NULL,
+   PRIMARY KEY (id),
+   UNIQUE (name)
+);
+
+/* MESSAGES table contains users */
+create table MESSAGES(
+   id BIGINT NOT NULL AUTO_INCREMENT,
+   recipient_id BIGINT NOT NULL,
+   content VARCHAR(255),
+   PRIMARY KEY (id)
+);
+
+/* Insert users*/
+INSERT INTO USERS(name)
+VALUES ('Mark');
+INSERT INTO USERS(name)
+VALUES ('Ann');
+INSERT INTO USERS(name)
+VALUES ('Tommy');
+
+/* Insert messages*/
+INSERT INTO MESSAGES(recipient_id, content)
+	SELECT user.id, 'Hello, Mark' FROM users user
+		where user.name='Mark';
+INSERT INTO MESSAGES(recipient_id, content)
+	SELECT user.id, 'Hello, Ann' FROM users user
+		where user.name='Ann';
+INSERT INTO MESSAGES(recipient_id, content)
+	SELECT user.id, 'Hello, Tommy' FROM users user
+		where user.name='Tommy';
+INSERT INTO MESSAGES(recipient_id, content)
+	SELECT user.id, 'Hi again, Mark' FROM users user
+		where user.name='Mark';

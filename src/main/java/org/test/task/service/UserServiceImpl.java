@@ -1,51 +1,27 @@
 package org.test.task.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.test.task.dao.UserDao;
 import org.test.task.model.User;
 
-import java.util.List;
-
 @Service("userService")
+@Transactional
 public class UserServiceImpl implements UserService {
+    @Autowired
+    private UserDao dao;
 
-    private static List<User> users = UsersStorageService.users;
-
-    public User findById(long id) {
-        for(User user : users){
-            if(user.getId() == id){
-                return user;
-            }
-        }
+    @Override
+    public User findById(int id) {
         return null;
     }
 
     public User findByName(String name) {
-        for(User user : users){
-            if(user.getName().equals(name)){
-                return user;
-            }
-        }
-        return null;
+        return dao.findByName(name);
     }
 
-    public User saveUser(User user) {
-        long id;
-        if(users.isEmpty()) {
-            id = 0;
-        } else {
-            User usr = users.get(users.size() - 1);
-            id = usr.getId() + 1;
-        }
-
-        user.setId(id);
-        users.add(user);
-
-        System.out.println("Size od users: " + users.size());
-
-        return user;
-    }
-
-    public List<User> findAllUsers() {
-        return users;
+    public void save(User user) {
+        dao.save(user);
     }
 }
